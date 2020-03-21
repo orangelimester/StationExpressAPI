@@ -1,0 +1,15 @@
+{
+	"name": "Node-Test",
+	"version": "0.0.1",
+	"description": "Take home",
+	"license": "MIT",
+	"author": "Mahendran V",
+	"dependencies": {
+		"body-parser": "^1.4.3",
+		"cors": "^2.8.4",
+		"express": "^4.13.4",
+		"express-winston": "^4.0.3",
+		"node-fetch": "^2.6.0",
+		"winston": "^3.2.1"
+	}
+}

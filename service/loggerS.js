@@ -1,19 +1,22 @@
 const winston = require('winston')
 const { addColors, createLogger, format, transports } = require('winston');
 const fs = require('fs');
+const moment = require('moment');
 const { combine, colorize, printf, timestamp } = format;
 dateFormat = () => {
-  return new Date(Date.now()).toUTCString()
+  return new Date();
 }
+
+// Winston logger service class
 class LoggerService {
   constructor(route) {
+    /* Route allows for multiple logger files */
     this.route = route
+    
+    /* Creates logger based on above route */
     const logger = createLogger({
       format: combine(
-        format.timestamp(),
-        timestamp({
-          format: 'YYYY-MM-DD HH:mm:ss'
-        }), printf((info) => {
+       printf((info) => {
         let message = `${dateFormat()} | ${info.level.toUpperCase()} | ${route}.log | ${info.message} `
         message = info.obj ? message + `| data:${JSON.stringify(info.obj)} ` : message
         return message
@@ -22,7 +25,6 @@ class LoggerService {
       transports: [
         new transports.Console({
           format: format.combine(
-            format.timestamp(),
             format.colorize(),
             format.printf((info) => {
               let message = `${dateFormat()} | ${info.level} | ${route}.log | ${info.message} `
@@ -46,14 +48,7 @@ async info(message, obj) {
     obj
   })
 }
-async debug(message) {
-  this.logger.log('debug', message);
-}
-async debug(message, obj) {
-  this.logger.log('debug', message, {
-    obj
-  })
-}
+
 async error(message) {
   this.logger.log('error', message);
 }
